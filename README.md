@@ -1,5 +1,6 @@
 # algo_projet
-##Introduction
+
+## Introduction
 
 
 1)Montrer que l’algorithme de modification de l’arbre n’échange jamais un noeud avec un des ses ancêtres.
