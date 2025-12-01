@@ -63,11 +63,11 @@ void echange_noeud(ArbreH* H, Noeud* n1, Noeud* n2){
     Noeud* parent2 = n2->parent;
     if (parent1) {
         if (parent1->gauche == n1) parent1->gauche = n2;
-        else parent1->droit  = n2;
+        else parent1->droite  = n2;
     }
     if (parent2) {
         if (parent2->gauche == n2) parent2->gauche = n1;
-        else parent2->droit  = n1;
+        else parent2->droite  = n1;
     }
     n1->parent = parent2;
     n2->parent = parent1;
