@@ -74,3 +74,19 @@ void echange_noeud(ArbreH* H, Noeud* n1, Noeud* n2){
     if (H->racine == n1) H->racine = n2;//cas si le parent est la racine
     else if (H->racine == n2) H->racine = n1;
 }
+
+int main() {
+    //test
+    ArbreH* arbre = buildArbreH();
+    Noeud* noeud1 = buildNoeud(101,1,NULL,1);
+    arbre->racine = noeud1;
+    Noeud* noeud2 = buildNoeud(103,1,noeud1,1);
+    Noeud* noeud3 = buildNoeud(104,1,noeud1,1);
+    noeud1->gauche = noeud2;
+    noeud1->droite = noeud3;
+    noeud3->gauche = arbre->special;
+    echange_noeud(arbre,noeud2,noeud3);
+    printf("%d\n",arbre->racine->symbole);
+    printf("%d\n",arbre->racine->gauche->symbole);
+    printf("%d\n",arbre->racine->droite->symbole);
+}
