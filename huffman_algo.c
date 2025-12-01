@@ -29,6 +29,16 @@ Noeud* buildNoeud(int symbole, int freq,Noeud *parent ,int cpt){
     return noeuds;
 }
 
+ArbreH* buildArbreH(){
+    //initialise un arbre de huffman
+    ArbreH* arbre = malloc(sizeof(ArbreH));
+    if(!arbre)return NULL;
+    arbre->racine = buildNoeud(-1,0,NULL,0);// # = -1
+    arbre->special = arbre->racine;
+    for (int i = 0; i<256; i++)arbre->tab_noeud[i]=NULL;
+    return arbre;
+}
+
 void recherche_finbloc(Noeud* noeuds, Noeud** noeuds_target, int freq_target){
     //recherche du meilleur target dans l'arbre si il y a une égalité il retourne le gdbh le plus haut
     if (noeuds == NULL)return;
