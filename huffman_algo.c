@@ -5,6 +5,7 @@ typedef struct Noeud {
     int frequence;
     int symbole;
     //la recherche par enfant gauche ou droite O(n)
+    struct Noeud *parent;
     struct Noeud *gauche;//next
     struct Noeud *droite;//next
     int gdbh;
@@ -16,7 +17,7 @@ typedef struct {
     Noeud *tab_noeud[256];// un tas , mais je n'ai pas encore regarder comment faire le lien avec l'arbre et le tab
 } ArbreH;
 
-Noeud* buildNoeud(int symbole, int freq,int cpt){
+Noeud* buildNoeud(int symbole, int freq,Noeud *parent ,int cpt){
     //cree un noeud
     Noeud* noeuds = malloc(sizeof(Noeud));
     if(!noeuds)return NULL;
@@ -26,16 +27,6 @@ Noeud* buildNoeud(int symbole, int freq,int cpt){
     noeuds->droite = NULL;
     noeuds->gdbh = cpt;
     return noeuds;
-}
-
-ArbreH* buildArbreH(){
-    //initialise un arbre de huffman
-    ArbreH* arbre = malloc(sizeof(ArbreH));
-    if(!arbre)return NULL;
-    arbre->racine = buildNoeud(-1,0,0);// # = -1
-    arbre->special = arbre->racine;
-    for (int i = 0; i<256; i++)arbre->tab_noeud[i]=NULL;
-    return arbre;
 }
 
 void recherche_finbloc(Noeud* noeuds, Noeud** noeuds_target, int freq_target){
@@ -54,4 +45,22 @@ Noeud* finBloc(ArbreH* arbre, int freq){
     Noeud* target = NULL;
     recherche_finbloc(arbre->racine,&target,freq);
     return target;
+}
+
+void echange_noeud(ArbreH* H, Noeud* n1, Noeud* n2){
+    //echange de place entre 2 noeuds
+    Noeud* parent1 = n1->parent;
+    Noeud* parent2 = n2->parent;
+    if (parent1) {
+        if (parent1->gauche == n1) parent1->gauche = n2;
+        else parent1->droit  = n2;
+    }
+    if (parent2) {
+        if (parent2->gauche == n2) parent2->gauche = n1;
+        else parent2->droit  = n1;
+    }
+    n1->parent = parent2;
+    n2->parent = parent1;
+    if (H->racine == n1) H->racine = n2;//cas si le parent est la racine
+    else if (H->racine == n2) H->racine = n1;
 }
