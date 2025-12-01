@@ -5,7 +5,6 @@ typedef struct Noeud {
     int frequence;
     int symbole;
     //la recherche par enfant gauche ou droite O(n)
-    struct Noeud *parent;//pred
     struct Noeud *gauche;//next
     struct Noeud *droite;//next
     int gdbh;
@@ -17,13 +16,12 @@ typedef struct {
     Noeud *tab_noeud[256];// un tas , mais je n'ai pas encore regarder comment faire le lien avec l'arbre et le tab
 } ArbreH;
 
-Noeud* buildNoeud(int symbole, int freq, Noeud* parent,int cpt){
+Noeud* buildNoeud(int symbole, int freq,int cpt){
     //cree un noeud
     Noeud* noeuds = malloc(sizeof(Noeud));
     if(!noeuds)return NULL;
     noeuds->symbole = symbole;
     noeuds->frequence = freq;
-    noeuds->parent = parent;
     noeuds->gauche = NULL;
     noeuds->droite = NULL;
     noeuds->gdbh = cpt;
@@ -34,7 +32,7 @@ ArbreH* buildArbreH(){
     //initialise un arbre de huffman
     ArbreH* arbre = malloc(sizeof(ArbreH));
     if(!arbre)return NULL;
-    arbre->racine = buildNoeud(-1,0,NULL,0);// # = -1
+    arbre->racine = buildNoeud(-1,0,0);// # = -1
     arbre->special = arbre->racine;
     for (int i = 0; i<256; i++)arbre->tab_noeud[i]=NULL;
     return arbre;
