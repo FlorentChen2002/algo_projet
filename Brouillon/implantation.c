@@ -39,7 +39,7 @@ void ecriture(const char* path_txt, const char* path_bin) {
                 buffer = buffer | 1;//remplace le dernier bit par un 1
             }
             nb_binaire++;
-            if (nb_bits == 8) {//ecriture dans le fichier bin quand il y a 8 bits
+            if (nb_binaire == 8) {//ecriture dans le fichier bin quand il y a 8 bits
                 fwrite(&buffer, 1, 1, f_bin);
                 nb_binaire = 0;
                 buffer = 0;
