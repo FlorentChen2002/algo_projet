@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+//utf8
 typedef struct Noeud {
-    int frequence;
+    int frequence;//char
     int symbole;
     //la recherche par enfant gauche ou droite O(n)
     struct Noeud *parent;
@@ -58,12 +59,26 @@ Noeud* finBloc(ArbreH* arbre, int freq){
     return target;
 }
 
+void update_GDBH(Noeud* n, int* cpt) {
+    // il met a jour le gdbh de chaque noeud
+    if (n == NULL) return;
+    
+    update_GDBH(n->gauche, cpt);
+    update_GDBH(n->droite, cpt);
+    
+    n->gdbh = *cpt;
+    (*cpt)++;
+}
+
+void numerotation_GDBH(ArbreH* arbre) {
+    //lance la mise a jour du gdbh
+    int cpt = 1;
+    update_GDBH(arbre->racine,&cpt);
+}
+
 void echange_noeud(ArbreH* h, Noeud* n1, Noeud* n2){
     //echange de place entre 2 noeuds
-    if (h == NULL || n1 == NULL || n2 == NULL) {
-        return; 
-    }
-    if (n1==n2)return;
+    if (h == NULL || n1 == NULL || n2 == NULL ||n1==n2) return; 
     
     Noeud* parent1 = n1->parent;
     Noeud* parent2 = n2->parent;
@@ -71,29 +86,25 @@ void echange_noeud(ArbreH* h, Noeud* n1, Noeud* n2){
     int n1_gauche = (parent1 && parent1->gauche == n1);
     int n2_gauche = (parent2 && parent2->gauche == n2);
     
-    if (parent1) {
-        if (n1_gauche)parent1->gauche = n2;
-        else parent1->droite  = n2;
-    }else h->racine=n2;
+    if (n1_gauche)parent1->gauche = n2;
+    else parent1->droite  = n2;
     
-    if (parent2) {
-        if (n2_gauche)parent2->gauche = n1;
-        else parent2->droite  = n1;
-    }else h->racine=n1;
+    if (n2_gauche)parent2->gauche = n1;
+    else parent2->droite  = n1;
     
     n1->parent = parent2;
     n2->parent = parent1;
 }
+
 void traitement(ArbreH* h, Noeud* q) {
+    //
     if (q == NULL ||h == NULL) return;
     if (q == h->racine){
         q->frequence++;
         return;
     }
     Noeud* b = finBloc(h, q->frequence);
-    if (b != q && q->parent != b){
-        echange_noeud(h, q, b);
-    }
+    if (b != q && q->parent != b)echange_noeud(h, q, b);
     q->frequence++; 
     traitement(h, q->parent);
 }
