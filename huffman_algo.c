@@ -61,12 +61,15 @@ void echange_noeud(ArbreH* H, Noeud* n1, Noeud* n2){
     //echange de place entre 2 noeuds
     Noeud* parent1 = n1->parent;
     Noeud* parent2 = n2->parent;
+    
+    int n1_gauche = (parent1 && parent1->gauche == n1);
+    int n2_gauche = (parent2 && parent2->gauche == n2);
     if (parent1) {
-        if (parent1->gauche == n1) parent1->gauche = n2;
+        if (n1_gauche)parent1->gauche = n2;
         else parent1->droite  = n2;
     }
     if (parent2) {
-        if (parent2->gauche == n2) parent2->gauche = n1;
+        if (n2_gauche)parent2->gauche = n1;
         else parent2->droite  = n1;
     }
     n1->parent = parent2;
