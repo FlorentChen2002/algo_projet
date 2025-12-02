@@ -64,21 +64,38 @@ void echange_noeud(ArbreH* h, Noeud* n1, Noeud* n2){
         return; 
     }
     if (n1==n2)return;
+    
     Noeud* parent1 = n1->parent;
     Noeud* parent2 = n2->parent;
     
     int n1_gauche = (parent1 && parent1->gauche == n1);
     int n2_gauche = (parent2 && parent2->gauche == n2);
+    
     if (parent1) {
         if (n1_gauche)parent1->gauche = n2;
         else parent1->droite  = n2;
     }else h->racine=n2;
+    
     if (parent2) {
         if (n2_gauche)parent2->gauche = n1;
         else parent2->droite  = n1;
     }else h->racine=n1;
+    
     n1->parent = parent2;
     n2->parent = parent1;
+}
+void traitement(ArbreH* h, Noeud* q) {
+    if (q == NULL ||h == NULL) return;
+    if (q == h->racine){
+        q->frequence++;
+        return;
+    }
+    Noeud* b = finBloc(h, q->frequence);
+    if (b != q && q->parent != b){
+        echange_noeud(h, q, b);
+    }
+    q->frequence++; 
+    traitement(h, q->parent);
 }
 
 int main() {
