@@ -23,6 +23,7 @@ Noeud* buildNoeud(int symbole, int freq,Noeud *parent ,int cpt){
     if(!noeuds)return NULL;
     noeuds->symbole = symbole;
     noeuds->frequence = freq;
+    noeuds->parent = parent;
     noeuds->gauche = NULL;
     noeuds->droite = NULL;
     noeuds->gdbh = cpt;
@@ -59,6 +60,10 @@ Noeud* finBloc(ArbreH* arbre, int freq){
 
 void echange_noeud(ArbreH* h, Noeud* n1, Noeud* n2){
     //echange de place entre 2 noeuds
+    if (h == NULL || n1 == NULL || n2 == NULL) {
+        return; 
+    }
+    if (n1==n2)return;
     Noeud* parent1 = n1->parent;
     Noeud* parent2 = n2->parent;
     
@@ -67,11 +72,11 @@ void echange_noeud(ArbreH* h, Noeud* n1, Noeud* n2){
     if (parent1) {
         if (n1_gauche)parent1->gauche = n2;
         else parent1->droite  = n2;
-    }else h->racine = n2
+    }else h->racine=n2;
     if (parent2) {
         if (n2_gauche)parent2->gauche = n1;
         else parent2->droite  = n1;
-    }else h->racine = n1
+    }else h->racine=n1;
     n1->parent = parent2;
     n2->parent = parent1;
 }
