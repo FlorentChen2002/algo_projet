@@ -57,7 +57,7 @@ Noeud* finBloc(ArbreH* arbre, int freq){
     return target;
 }
 
-void echange_noeud(ArbreH* H, Noeud* n1, Noeud* n2){
+void echange_noeud(ArbreH* h, Noeud* n1, Noeud* n2){
     //echange de place entre 2 noeuds
     Noeud* parent1 = n1->parent;
     Noeud* parent2 = n2->parent;
@@ -67,11 +67,11 @@ void echange_noeud(ArbreH* H, Noeud* n1, Noeud* n2){
     if (parent1) {
         if (n1_gauche)parent1->gauche = n2;
         else parent1->droite  = n2;
-    }else H->racine = n2
+    }else h->racine = n2
     if (parent2) {
         if (n2_gauche)parent2->gauche = n1;
         else parent2->droite  = n1;
-    }else H->racine = n1
+    }else h->racine = n1
     n1->parent = parent2;
     n2->parent = parent1;
 }
