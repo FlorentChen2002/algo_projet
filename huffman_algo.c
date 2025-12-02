@@ -67,15 +67,13 @@ void echange_noeud(ArbreH* H, Noeud* n1, Noeud* n2){
     if (parent1) {
         if (n1_gauche)parent1->gauche = n2;
         else parent1->droite  = n2;
-    }
+    }else H->racine = n2
     if (parent2) {
         if (n2_gauche)parent2->gauche = n1;
         else parent2->droite  = n1;
-    }
+    }else H->racine = n1
     n1->parent = parent2;
     n2->parent = parent1;
-    if (H->racine == n1) H->racine = n2;//cas si le parent est la racine
-    else if (H->racine == n2) H->racine = n1;
 }
 
 int main() {
